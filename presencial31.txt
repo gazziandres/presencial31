@@ -1,0 +1,13 @@
+CREATE DATABASE call_list;
+CREATE TABLE users(id SERIAL primary key, first_name varchar, email varchar);
+INSERT INTO users(first_name, email) VALUES('Carlos', 'carlos@gmail.com');
+INSERT INTO users(first_name, email) VALUES('Laura', 'laura@gmail.com');
+CREATE TABLE calls(id SERIAL primary key, phone varchar, date varchar, user_id integer  REFERENCES users(id));
+ALTER TABLE users ADD COLUMN last_name INTEGER;
+UPDATE users SET last_name='Carmona' WHERE first_name = 'Carlos';
+UPDATE users SET last_name='Acevedo' WHERE first_name = 'Laura';
+INSERT INTO calls(phone, user_id) VALUES('1234567', 2);
+INSERT INTO calls(phone, user_id) VALUES('1234567', 1);
+INSERT INTO users (first_name, email, last_name) VALUES ('Gazzi', 'gazzi@gmail.com', 'Jacob');
+SELECT users.first_name, count(phone) FROM users LEFT JOIN calls ON (users.id = calls.user_id) group by first_name;
+SELECT date FROM calls INNER JOIN users ON (calls.user_id = users.id) WHERE first_name = 'Carlos' ORDER BY date DESC;
